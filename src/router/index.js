@@ -11,7 +11,9 @@ const routes = [{
   path: '/about',
   component: AboutView
 }, {
-  path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFoundView
+  path: '/:pathMatch(.*)*',
+  name: 'NotFound',
+  component: NotFoundView
 }, {
   path: '/login',
   component: LoginView
