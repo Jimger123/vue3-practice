@@ -48,9 +48,9 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { login, getinfo } from '@/api/manager'
-import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { useCookies } from '@vueuse/integrations/useCookies'
+import { setToken } from '@/composables/auth'
+import { toast } from '@/composables/util'
 
 const router = useRouter()
 // do not use same name with ref
@@ -88,14 +88,9 @@ const onSubmit = () => {
             .then(res => {
                 console.log(res)
 
-                ElNotification({
-                    message: "登录成功",
-                    type: 'success',
-                    duration: 3000
-                })
-
-                const cookie = useCookies()
-                cookie.set("admin-token", res.token)
+                toast("登录成功")
+                //存储token
+                setToken(res.token)
 
                 getinfo().then(res2 => {
                     console.log(res2)
