@@ -40,14 +40,14 @@
                     </el-input>
                 </el-form-item>
             </el-form>
-            <el-button round color="#626aef" class="w-250px" type="primary" @click="onSubmit">登 录</el-button>
+            <el-button round color="#626aef" class="w-250px" type="primary" @click="onSubmit" :loading="loading">登 录</el-button>
         </el-col>
     </el-row>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { login } from '@/api/manager'
+import { login, getinfo } from '@/api/manager'
 import { ElNotification } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { useCookies } from '@vueuse/integrations/useCookies'
@@ -77,12 +77,13 @@ const rules = {
 }
 
 const formRef = ref(null)
-
+const loading = ref(false)
 const onSubmit = () => {
     formRef.value.validate((valid) => {
         if (!valid) {
             return false
         }
+        loading.value = true
         login(form.username, form.password)
             .then(res => {
                 console.log(res)
@@ -92,11 +93,18 @@ const onSubmit = () => {
                     type: 'success',
                     duration: 3000
                 })
-                
+
                 const cookie = useCookies()
-                cookie.set("admin-token",res.token)
+                cookie.set("admin-token", res.token)
+
+                getinfo().then(res2 => {
+                    console.log(res2)
+                })
 
                 router.push("/")
+            })
+            .finally(()=>{
+                loading.value = false
             })
     })
 }

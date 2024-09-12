@@ -19,6 +19,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1",
     "vite": "^5.3.1",
     "vite-plugin-windicss": "^1.9.3",
     "windicss": "^3.5.6"
