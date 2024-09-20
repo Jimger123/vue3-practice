@@ -46,11 +46,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { login, getinfo } from '@/api/manager'
+import { ref, reactive,onMounted,onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import { setToken } from '@/composables/auth'
+import { useStore } from 'vuex'
 import { toast } from '@/composables/util'
+import store from '@/store'
 
 const router = useRouter()
 // do not use same name with ref
@@ -84,25 +84,30 @@ const onSubmit = () => {
             return false
         }
         loading.value = true
-        login(form.username, form.password)
-            .then(res => {
-                console.log(res)
 
-                toast("登录成功")
-                //存储token
-                setToken(res.token)
-
-                getinfo().then(res2 => {
-                    console.log(res2)
-                })
-
-                router.push("/")
-            })
-            .finally(()=>{
-                loading.value = false
-            })
+        store.dispatch("login",form).then(res=>{
+            toast("登录成功")
+            router.push("/")
+        }).finally(()=>{
+            loading.value = false
+        })
     })
 }
+//监听回车事件
+function onKeyUp(e){
+    if(e.key == "Enter") onSubmit()
+}
+
+//添加键盘监听
+onMounted(()=>{
+    document.addEventListener("keyup",onKeyUp)
+})
+//移除键盘监听
+onBeforeUnmount(()=>{
+    document.removeEventListener("keyup",onKeyUp)
+})
+
+
 </script>
 
 <style scoped>
