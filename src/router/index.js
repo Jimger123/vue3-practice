@@ -6,17 +6,29 @@ import LoginView from '@/views/LoginView.vue'
 
 const routes = [{
   path: '/',
-  component: HomeView
+  component: HomeView,
+  meta: {
+    title: "首页"
+  }
 }, {
   path: '/about',
-  component: AboutView
+  component: AboutView,
+  meta: {
+    title: "关于我们"
+  }
 }, {
   path: '/:pathMatch(.*)*',
   name: 'NotFound',
-  component: NotFoundView
+  component: NotFoundView,
+  meta: {
+    title: "404"
+  }
 }, {
   path: '/login',
-  component: LoginView
+  component: LoginView,
+  meta: {
+    title: "登录"
+  }
 }]
 
 
