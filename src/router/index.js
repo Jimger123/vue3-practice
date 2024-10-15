@@ -3,19 +3,25 @@ import HomeView from '@/views/HomeView.vue'
 import AboutView from '@/views/AboutView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import LoginView from '@/views/LoginView.vue'
+import admin from '@/layout/admin.vue'
+import Admin from '@/layout/admin.vue'
 
 const routes = [{
   path: '/',
-  component: HomeView,
-  meta: {
-    title: "首页"
-  }
-}, {
-  path: '/about',
-  component: AboutView,
-  meta: {
-    title: "关于我们"
-  }
+  component: Admin,
+  children: [{
+    path: '/',
+    component: HomeView,
+    meta: {
+      title: "首页"
+    }
+  }, {
+    path: '/about',
+    component: AboutView,
+    meta: {
+      title: "关于我们"
+    }
+  }]
 }, {
   path: '/:pathMatch(.*)*',
   name: 'NotFound',
